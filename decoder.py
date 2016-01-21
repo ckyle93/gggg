@@ -11,9 +11,9 @@ def read_key(infile):
     f = open(infile, 'r')
     text = re.split('\n+| ', f.read())
     text.remove('')
-    key = {}
+    translator = {}
     for i in range(0, len(text), 2):
-        key[text[i+1]] = text[i]
+        translator[text[i+1]] = text[i]
     return translator
 
 """ Reads in some text, parses it into
@@ -22,12 +22,18 @@ def read_key(infile):
 """
 def translate_text(text, translator):
     words = re.split('\n+| ', text)
+    translation = ''
     for word in words:
         for partial_letter in word:
+            letter = ''
             letter += partial_letter
-            for k, v in key.items():
+            for k, v in translator.items():
                 if k == letter:
                     translation += v
+                    letter = ''
+                    break
+    return translation
 
-
+testdict = {1 : 'this', 2 : 'is', 3 : 'a', 4 : 'test'}
+print(translate_text('12 34 44 21', testdict))
 print(read_key('test'))
