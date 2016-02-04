@@ -7,9 +7,8 @@ import re
     of keys to values, which assumes the in file
     is formatted as "value Key value Key ..."
 """
-def read_key(infile):
-    f = open(infile, 'r')
-    text = re.split('\n+| ', f.read())
+def read_key(dictionary):
+    text = re.split('\n+| ', dictionary)
     text.remove('')
     translator = {}
     for i in range(0, len(text), 2):
@@ -20,20 +19,25 @@ def read_key(infile):
     words, then letters until it can find
     a corresponding match in the dictionary.
 """
-def translate_text(text, translator):
-    words = re.split('\n+| ', text)
+def translate_text(foreign_text, translator):
+    words = re.split('\n+| ', foreign_text)
     translation = ''
     for word in words:
+        letter = ''
         for partial_letter in word:
-            letter = ''
+            if partial_letter != 'g' and partial_letter != 'G':
+                translation += partial_letter
+                continue
             letter += partial_letter
             for k, v in translator.items():
                 if k == letter:
                     translation += v
                     letter = ''
                     break
+        translation += ' '
     return translation
 
-testdict = {1 : 'this', 2 : 'is', 3 : 'a', 4 : 'test'}
-print(translate_text('12 34 44 21', testdict))
-print(read_key('test'))
+f = open('sample_input2', 'r')
+dictionary = f.readline()
+foreign_text = f.readline()
+print(translate_text(foreign_text, read_key(dictionary)))
