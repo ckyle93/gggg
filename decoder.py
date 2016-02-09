@@ -37,7 +37,8 @@ def translate_text(foreign_text, translator):
         translation += ' '
     return translation
 
-f = open('sample_input2', 'r')
+file_name = input('Enter filename containing a key and a message to decode: ')
+f = open(file_name, 'r')
 dictionary = f.readline()
 foreign_text = f.readline()
 print(translate_text(foreign_text, read_key(dictionary)))
